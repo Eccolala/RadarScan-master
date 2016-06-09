@@ -1,0 +1,80 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/line_color_blue"
+    tools:context="mr_immortalz.com.modelqq.EquActivity.FirstEqu">
+
+
+    <net.steamcrafted.materialiconlib.MaterialIconView
+        android:id="@+id/icon_play"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerInParent="true"
+        android:padding="12dp"
+        app:materialIcon="play_circle"
+        app:materialIconColor="#fff"
+        app:materialIconSize="48dp"
+        android:onClick="Play"/>
+
+    <net.steamcrafted.materialiconlib.MaterialIconView
+        android:id="@+id/icon_pause"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignTop="@+id/icon_play"
+        android:layout_toEndOf="@+id/icon_play"
+        android:padding="12dp"
+        app:materialIcon="pause"
+        app:materialIconColor="#fff"
+        app:materialIconSize="48dp"
+        android:onClick="Pause"/>
+
+    <net.steamcrafted.materialiconlib.MaterialIconView
+        android:id="@+id/icon_stop"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignTop="@+id/icon_play"
+        android:layout_toStartOf="@+id/icon_play"
+        android:padding="12dp"
+        app:materialIcon="stop"
+        app:materialIconColor="#fff"
+        app:materialIconSize="48dp"
+        android:onClick="Stop"/>
+
+    <net.steamcrafted.materialiconlib.MaterialIconView
+        android:id="@+id/icon_data"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_above="@+id/icon_play"
+        android:layout_toEndOf="@+id/icon_stop"
+        android:padding="12dp"
+        app:materialIcon="calendar"
+        app:materialIconColor="#fff"
+        app:materialIconSize="48dp"
+        android:onClick="Stop"/>
+
+
+    <net.steamcrafted.materialiconlib.MaterialIconView
+        android:id="@+id/icon_time"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/icon_play"
+        android:layout_toEndOf="@+id/icon_stop"
+        android:padding="12dp"
+        app:materialIcon="timer"
+        app:materialIconColor="#fff"
+        app:materialIconSize="48dp"
+        android:onClick="Stop"/>
+
+    <mr_immortalz.com.modelqq.wave.WaterRippleView
+        android:id="@+id/water_ripple_view"
+        android:layout_width="fill_parent"
+        android:layout_height="fill_parent"
+        android:visibility="gone"/>
+
+
+
+
+</RelativeLayout>

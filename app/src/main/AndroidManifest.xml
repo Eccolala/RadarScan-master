@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="utf-8"?>
+<manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    package="mr_immortalz.com.modelqq">
+    <uses-permission android:name="android.permission.RECORD_AUDIO"/>
+    <application
+        android:allowBackup="true"
+        android:icon="@mipmap/ic_launcher"
+        android:label="@string/app_name"
+        android:supportsRtl="true"
+        android:theme="@style/AppTheme">
+        <activity android:name=".MainActivity">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity>
+        <activity android:name=".EquActivity.FirstEqu"
+            android:label="微波炉"/>
+        <activity android:name=".EquActivity.SecondEqu"
+            android:label="电磁炉"/>
+        <activity android:name=".EquActivity.ThirdEqu"
+            android:label="烤箱"></activity>
+    </application>
+
+</manifest>
