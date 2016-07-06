@@ -18,6 +18,11 @@ import com.wdullaer.materialdatetimepicker.date.DatePickerDialog;
 import com.wdullaer.materialdatetimepicker.time.RadialPickerLayout;
 import com.wdullaer.materialdatetimepicker.time.TimePickerDialog;
 
+import java.io.IOException;
+import java.io.OutputStreamWriter;
+import java.io.Writer;
+import java.net.Socket;
+import java.net.UnknownHostException;
 import java.util.Calendar;
 
 import mr_immortalz.com.modelqq.R;
@@ -39,6 +44,7 @@ public class FirstEqu extends AppCompatActivity implements TimePickerDialog.OnTi
     private Runnable runnable;
     private Runnable runnable2;
 
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -57,32 +63,6 @@ public class FirstEqu extends AppCompatActivity implements TimePickerDialog.OnTi
             }
         });
 
-        handler_open = new Handler();
-        runnable = new Runnable() {
-            @Override
-            public void run() {
-                // TODO Auto-generated method stub
-                // 在此处添加执行的代码
-                SuperActivityToast.create(FirstEqu.this, "正在打开微波炉,请稍后......",
-                        SuperToast.Duration.SHORT, Style.getStyle(Style.ORANGE, SuperToast.Animations.FLYIN)).show();
-                handler_open.removeCallbacks(this); //移除定时任务
-            }
-        };
-        handler_open.postDelayed(runnable, 5000);// 打开定时器，50ms后执行runnable操作
-
-
-        handler_close = new Handler();
-        runnable2 = new Runnable() {
-            @Override
-            public void run() {
-                // TODO Auto-generated method stub
-                // 在此处添加执行的代码
-                SuperActivityToast.create(FirstEqu.this, "正在关闭微波炉,请稍后......",
-                        SuperToast.Duration.SHORT, Style.getStyle(Style.ORANGE, SuperToast.Animations.FLYIN)).show();
-                handler_close.removeCallbacks(this); //移除定时任务
-            }
-        };
-        handler_close.postDelayed(runnable2, 12000);// 打开定时器，50ms后执行runnable操作
 
 
     }
@@ -90,8 +70,6 @@ public class FirstEqu extends AppCompatActivity implements TimePickerDialog.OnTi
     @Override
     protected void onDestroy() {
         super.onDestroy();
-        handler_open.removeCallbacks(runnable);// 关闭定时器处理
-        handler_close.removeCallbacks(runnable2);// 关闭定时器处理
     }
 
     @Override
@@ -173,14 +151,18 @@ public class FirstEqu extends AppCompatActivity implements TimePickerDialog.OnTi
         }
     }
 
-    public void Play(View view) {
+    public void Play(View view) throws IOException {
         SuperActivityToast.create(FirstEqu.this, "正在打开微波炉,请稍后......",
                 SuperToast.Duration.SHORT, Style.getStyle(Style.ORANGE, SuperToast.Animations.FLYIN)).show();
+        Thread device = new MySendCommondThread("1");
+        device.start();
     }
 
     public void Stop(View view) {
         SuperActivityToast.create(FirstEqu.this, "正在关闭微波炉,请稍后......",
                 SuperToast.Duration.SHORT, Style.getStyle(Style.ORANGE, SuperToast.Animations.FLYIN)).show();
+        Thread device = new MySendCommondThread("0");
+        device.start();
     }
 
     public void Pause(View view) {
@@ -231,5 +213,30 @@ public class FirstEqu extends AppCompatActivity implements TimePickerDialog.OnTi
                 now.get(Calendar.DAY_OF_MONTH)
         );
         dpd.show(getFragmentManager(), "Datepickerdialog");
+    }
+}
+
+class MySendCommondThread extends Thread {
+    private String hostName = "192.168.1.101";  //要连接的服务端IP地址
+    private int portNumber = 8899;   //要连接的服务端对应的监听端口
+    private String commond;
+
+    public MySendCommondThread(String commond) {
+        this.commond = commond;
+    }
+
+    public void run() {
+        //实例化Socket
+        try {
+            Socket client = new Socket(hostName, portNumber);
+            Writer writer = new OutputStreamWriter(client.getOutputStream(),"UTF-8");
+
+            writer.write(commond);
+            writer.flush();//写完后要记得flush
+            writer.close();
+            client.close();
+        } catch (UnknownHostException e) {
+        } catch (IOException e) {
+        }
     }
 }
