@@ -10,6 +10,9 @@ import android.view.View;
 import android.widget.EditText;
 import android.widget.Toast;
 
+import com.github.johnpersano.supertoasts.SuperActivityToast;
+import com.github.johnpersano.supertoasts.SuperToast;
+import com.github.johnpersano.supertoasts.util.Style;
 import com.iflytek.cloud.ErrorCode;
 import com.iflytek.cloud.InitListener;
 import com.iflytek.cloud.RecognizerListener;
@@ -60,7 +63,7 @@ public class ItaActivity extends AppCompatActivity {
         if (ret != ErrorCode.SUCCESS) {
             showTip("听写失败,错误码：" + ret);
         } else {
-            showTip("请开始BB");
+//            showTip("请开始BB");
         }
     }
     /**
@@ -71,7 +74,8 @@ public class ItaActivity extends AppCompatActivity {
         @Override
         public void onBeginOfSpeech() {
             // 此回调表示：sdk内部录音机已经准备好了，用户可以开始语音输入
-            showTip("开始说话");
+            SuperActivityToast.create(ItaActivity.this, "请开始说话",
+                    SuperToast.Duration.SHORT, Style.getStyle(Style.ORANGE, SuperToast.Animations.FLYIN)).show();
         }
 
         @Override
@@ -85,7 +89,7 @@ public class ItaActivity extends AppCompatActivity {
         @Override
         public void onEndOfSpeech() {
             // 此回调表示：检测到了语音的尾端点，已经进入识别过程，不再接受语音输入
-            showTip("结束说话");
+//            showTip("结束说话");
             text = mResult.getText().toString();
         }
 
@@ -93,15 +97,34 @@ public class ItaActivity extends AppCompatActivity {
         public void onResult(RecognizerResult results, boolean isLast) {
             text = JsonParser.parseIatResult(results.getResultString());
             mResult.append(text);
+
             mResult.setSelection(mResult.length());
-            if (isLast) {
-                //TODO 最后的结果
+            int num = text.length();
+
+            if (num >=2 ){
+                if (text.substring(0,2).equals("打开")){
+                    Log.d("Jay","open");
+                    SuperActivityToast.create(ItaActivity.this, "正在打开,请稍后...^_^",
+                            SuperToast.Duration.SHORT, Style.getStyle(Style.ORANGE, SuperToast.Animations.FLYIN)).show();
+
+                }else if (text.substring(0,2).equals("关闭")){
+                    Log.d("Jay","close");
+                    SuperActivityToast.create(ItaActivity.this, "正在关闭,请稍后...^o^",
+                            SuperToast.Duration.SHORT, Style.getStyle(Style.ORANGE, SuperToast.Animations.FLYIN)).show();
+
+                }else {
+                    SuperActivityToast.create(ItaActivity.this, "矮油,我没有听清楚,再说一遍嘛　T_T",
+                            SuperToast.Duration.SHORT, Style.getStyle(Style.ORANGE, SuperToast.Animations.FLYIN)).show();
+                }
             }
+
+
         }
 
         @Override
         public void onVolumeChanged(int volume, byte[] data) {
-            showTip("当前正在说话，音量大小：" + volume);
+//            showTip("当前正在说话，音量大小：" + volume);
+
             Log.d("TAG", "返回音频数据："+data.length);
         }
 
