@@ -27,9 +27,9 @@
         android:layout_height="wrap_content"
         android:layout_alignTop="@+id/icon_play"
         android:layout_toEndOf="@+id/icon_play"
-        android:onClick="Pause"
+        android:onClick="startClick"
         android:padding="12dp"
-        app:materialIcon="pause"
+        app:materialIcon="telegram"
         app:materialIconColor="#fff"
         app:materialIconSize="48dp" />
 
@@ -78,14 +78,12 @@
         android:visibility="gone" />
 
 
-
     <mr_immortalz.com.modelqq.view.WaveformView
         android:id="@+id/waveform_view"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_below="@+id/icon_time"
-        android:layout_toEndOf="@+id/water_ripple_view"
-        />
+        android:layout_toEndOf="@+id/water_ripple_view" />
 
 
 </RelativeLayout>

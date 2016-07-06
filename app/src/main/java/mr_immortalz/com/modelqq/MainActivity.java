@@ -192,9 +192,10 @@ public class MainActivity extends Activity implements ViewPager.OnPageChangeList
                     }
                     else if (position == 2){
                         startActivity(new Intent(MainActivity.this, ThirdEqu.class));
-                    } else if (position == 3){
-                        startActivity(new Intent(MainActivity.this, ItaActivity.class));
                     }
+//                    else if (position == 3){
+//                        startActivity(new Intent(MainActivity.this, ItaActivity.class));
+//                    }
                     else {
                         Toast.makeText(MainActivity.this, "正在开发敬请期待 " + " >.<", Toast.LENGTH_SHORT).show();
                     }
