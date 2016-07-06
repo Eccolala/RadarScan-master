@@ -317,7 +317,7 @@ public class FirstEqu extends AppCompatActivity implements TimePickerDialog.OnTi
 }
 
 class MySendCommondThread extends Thread {
-    private String hostName = "192.168.1.101";  //要连接的服务端IP地址
+    private String hostName = "192.168.1.102";  //要连接的服务端IP地址
     private int portNumber = 8899;   //要连接的服务端对应的监听端口
     private String commond;
 
