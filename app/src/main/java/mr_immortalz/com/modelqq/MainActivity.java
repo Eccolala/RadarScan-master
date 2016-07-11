@@ -5,6 +5,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.view.PagerAdapter;
 import android.support.v4.view.ViewPager;
+import android.util.Log;
 import android.util.SparseArray;
 import android.view.LayoutInflater;
 import android.view.MotionEvent;
@@ -20,7 +21,12 @@ import com.wdullaer.materialdatetimepicker.date.DatePickerDialog;
 import com.wdullaer.materialdatetimepicker.time.RadialPickerLayout;
 import com.wdullaer.materialdatetimepicker.time.TimePickerDialog;
 
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.InputStreamReader;
 import java.lang.reflect.Field;
+import java.net.ServerSocket;
+import java.net.Socket;
 
 import mr_immortalz.com.modelqq.EquActivity.FirstEqu;
 import mr_immortalz.com.modelqq.EquActivity.SecondEqu;
@@ -32,8 +38,8 @@ import mr_immortalz.com.modelqq.utils.FixedSpeedScroller;
 import mr_immortalz.com.modelqq.utils.LogUtil;
 import mr_immortalz.com.modelqq.utils.ZoomOutPageTransformer;
 
-public class MainActivity extends Activity implements ViewPager.OnPageChangeListener, RadarViewGroup.IRadarClickListener , TimePickerDialog.OnTimeSetListener,
-        DatePickerDialog.OnDateSetListener{
+public class MainActivity extends Activity implements ViewPager.OnPageChangeListener, RadarViewGroup.IRadarClickListener, TimePickerDialog.OnTimeSetListener,
+        DatePickerDialog.OnDateSetListener {
 
     private CustomViewPager viewPager;
     private RelativeLayout ryContainer;
@@ -41,7 +47,7 @@ public class MainActivity extends Activity implements ViewPager.OnPageChangeList
     private int[] mImgs = {R.drawable.len, R.drawable.leo, R.drawable.lep,
             R.drawable.leq, R.drawable.ler, R.drawable.les, R.drawable.mln, R.drawable.mmz, R.drawable.mna,
             R.drawable.mnj};
-    private String[] mNames = {"微波炉", "电磁炉", "烤箱", "电磁炉","微波炉", "冰箱", "烤箱", "电磁炉", "烤箱", "电磁炉"};
+    private String[] mNames = {"微波炉", "电磁炉", "烤箱", "电磁炉", "微波炉", "冰箱", "烤箱", "电磁炉", "烤箱", "电磁炉"};
     private int mPosition;
     private FixedSpeedScroller scroller;
     private SparseArray<Info> mDatas = new SparseArray<>();
@@ -75,6 +81,9 @@ public class MainActivity extends Activity implements ViewPager.OnPageChangeList
 
 
         setDataAndTimerPicker();
+
+        Thread mReceiveData = new MyReceiveDataThread();
+        mReceiveData.start();
     }
 
     private void setDataAndTimerPicker() {
@@ -173,9 +182,9 @@ public class MainActivity extends Activity implements ViewPager.OnPageChangeList
             TextView tvName = (TextView) view.findViewById(R.id.tv_name);
             TextView tvDistance = (TextView) view.findViewById(R.id.tv_distance);
             tvName.setText(info.getName());
-            if (position % 3 == 0){
+            if (position % 3 == 0) {
                 tvDistance.setText("状态:正在运行");
-            }else {
+            } else {
                 tvDistance.setText("状态:已停止");
             }
 
@@ -187,16 +196,13 @@ public class MainActivity extends Activity implements ViewPager.OnPageChangeList
 
                     if (position == 0)
                         startActivity(new Intent(MainActivity.this, FirstEqu.class));
-                    else if (position == 1){
+                    else if (position == 1) {
                         startActivity(new Intent(MainActivity.this, SecondEqu.class));
-                    }
-                    else if (position == 2){
+                    } else if (position == 2) {
                         startActivity(new Intent(MainActivity.this, ThirdEqu.class));
-                    }
-                    else if (position == 3){
+                    } else if (position == 3) {
                         startActivity(new Intent(MainActivity.this, VideoAty.class));
-                    }
-                    else {
+                    } else {
                         Toast.makeText(MainActivity.this, "正在开发敬请期待 " + " >.<", Toast.LENGTH_SHORT).show();
                     }
                 }
@@ -220,6 +226,45 @@ public class MainActivity extends Activity implements ViewPager.OnPageChangeList
             View view = (View) object;
             container.removeView(view);
         }
+
+    }
+
+    class MyReceiveDataThread extends Thread {
+
+        public void run() {
+
+
+            while (true) {
+                try {
+                    ServerSocket serverSocket = new ServerSocket(8888);;
+                    Socket socket = serverSocket.accept();
+                    Log.d("Jay", "连接成功");
+                    BufferedReader in = new BufferedReader(new InputStreamReader(socket.getInputStream(), "UTF-8"));
+                    String inputLine = in.readLine();
+                    Log.d("Jay", "inputLine is :"+inputLine);
+
+//                    while ((inputLine = in.read()) != null) {
+                        if (inputLine.substring(0,1).equals("1")) {
+                            Log.d("Jay", "这是1");
+                            startActivity(new Intent(MainActivity.this, VideoAty.class));
+                        } else {
+                            Log.d("Jay", "这是0");
+                        }
+//                    }
+                    in.close();
+                    socket.close();
+                    serverSocket.close();
+                    Log.d("Jay", "连接已关闭");
+
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+
+
+            }
+
+        }
+
 
     }
 }

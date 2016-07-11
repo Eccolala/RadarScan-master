@@ -3,6 +3,7 @@ package mr_immortalz.com.modelqq.EquActivity;
 import android.content.Context;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
+import android.util.Log;
 import android.widget.Button;
 
 import java.io.IOException;
@@ -19,9 +20,9 @@ public class FlameActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_flame);
-        button = (Button) findViewById(R.id.button1);
 
         mContext = this;
+        Log.d("Jay", "连接成功");
 
         Thread mReceiveData = new MyReceiveDataThread();
         mReceiveData.start();
@@ -29,38 +30,32 @@ public class FlameActivity extends AppCompatActivity {
     }
 
 
-
-
-
     class MyReceiveDataThread extends Thread {
 
-        private int port;
-        private Socket socket;
-        private ServerSocket serverSocket;
-
-
         public void run() {
-            try {
-                serverSocket = new ServerSocket(8888);
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
 
             while (true) {
+                ServerSocket serverSocket = null;
                 try {
-                    socket = serverSocket.accept();
+                    Log.d("Jay", "开始连接");
 
-//                    startActivity(new Intent(FlameActivity.this,));
+                    serverSocket = new ServerSocket(8888);
+                    Log.d("Jay", "连接成功");
+
+                    Socket socket = serverSocket.accept();
                 } catch (IOException e) {
                     e.printStackTrace();
                 }
+
+
+//                    startActivity(new Intent(this,FlameActivity.class));
+
             }
 
         }
 
 
     }
-
 
 
 }
