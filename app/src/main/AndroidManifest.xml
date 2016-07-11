@@ -36,7 +36,11 @@
         <activity
             android:name=".EquActivity.ThirdEqu"
             android:label="烤箱" />
-        <activity android:name=".ItaActivity"></activity>
+        <activity android:name=".ItaActivity" />
+        <activity android:name=".EquActivity.FlameActivity" />
+        <activity android:name=".VideoAty"
+            android:screenOrientation="landscape"
+            android:label="警告 ! ! !监测到厨房发生火情,请及时前往处理"></activity>
     </application>
 
 </manifest>

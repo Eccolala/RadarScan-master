@@ -170,13 +170,13 @@ public class FirstEqu extends AppCompatActivity implements TimePickerDialog.OnTi
                     Log.d("Jay","open");
                     SuperActivityToast.create(FirstEqu.this, "正在打开,请稍后...^_^",
                             SuperToast.Duration.SHORT, Style.getStyle(Style.ORANGE, SuperToast.Animations.FLYIN)).show();
-                    Thread device = new MySendCommondThread("1");
+                    Thread device = new MySendCommondThread('1');
                     device.start();
                 }else if (text.substring(0,2).equals("关闭")){
                     Log.d("Jay","close");
                     SuperActivityToast.create(FirstEqu.this, "正在关闭,请稍后...^o^",
                             SuperToast.Duration.SHORT, Style.getStyle(Style.ORANGE, SuperToast.Animations.FLYIN)).show();
-                    Thread device = new MySendCommondThread("0");
+                    Thread device = new MySendCommondThread('0');
                     device.start();
 
                 }else {
@@ -230,14 +230,14 @@ public class FirstEqu extends AppCompatActivity implements TimePickerDialog.OnTi
     public void Play(View view) throws IOException {
         SuperActivityToast.create(FirstEqu.this, "正在打开微波炉,请稍后......",
                 SuperToast.Duration.SHORT, Style.getStyle(Style.ORANGE, SuperToast.Animations.FLYIN)).show();
-        Thread device = new MySendCommondThread("1");
+        Thread device = new MySendCommondThread('1');
         device.start();
     }
 
     public void Stop(View view) {
         SuperActivityToast.create(FirstEqu.this, "正在关闭微波炉,请稍后......",
                 SuperToast.Duration.SHORT, Style.getStyle(Style.ORANGE, SuperToast.Animations.FLYIN)).show();
-        Thread device = new MySendCommondThread("0");
+        Thread device = new MySendCommondThread('0');
         device.start();
     }
 
@@ -317,11 +317,11 @@ public class FirstEqu extends AppCompatActivity implements TimePickerDialog.OnTi
 }
 
 class MySendCommondThread extends Thread {
-    private String hostName = "192.168.1.101";  //要连接的服务端IP地址
-    private int portNumber = 8899;   //要连接的服务端对应的监听端口
-    private String commond;
+    private String hostName = "192.168.1.193";  //要连接的服务端IP地址
+    private int portNumber = 7373;   //要连接的服务端对应的监听端口
+    private char commond;
 
-    public MySendCommondThread(String commond) {
+    public MySendCommondThread(char commond) {
         this.commond = commond;
     }
 
